@@ -1,0 +1,10 @@
+artifact_location: file:///Users/guptayas/1898483/inshorts/scripts/training/mlruns/764276176896151570/models/m-7f308d5782de4d8f9fa837c3752179f6/artifacts
+creation_timestamp: 1760896941860
+experiment_id: '764276176896151570'
+last_updated_timestamp: 1760896944092
+model_id: m-7f308d5782de4d8f9fa837c3752179f6
+model_type: null
+name: model
+source_run_id: ebb6675b07094dd0ba22bc2196962e33
+status: 2
+status_message: null

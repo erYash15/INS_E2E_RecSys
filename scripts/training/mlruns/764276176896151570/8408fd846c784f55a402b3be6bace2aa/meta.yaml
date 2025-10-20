@@ -1,0 +1,14 @@
+artifact_uri: file:///Users/guptayas/1898483/inshorts/scripts/training/mlruns/764276176896151570/8408fd846c784f55a402b3be6bace2aa/artifacts
+end_time: 1760896932726
+entry_point_name: ''
+experiment_id: '764276176896151570'
+lifecycle_stage: active
+run_id: 8408fd846c784f55a402b3be6bace2aa
+run_name: optuna_trial_3
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1760896927113
+status: 3
+tags: []
+user_id: guptayas

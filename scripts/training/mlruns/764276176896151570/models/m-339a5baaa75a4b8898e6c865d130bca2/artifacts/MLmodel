@@ -1,0 +1,23 @@
+artifact_path: file:///Users/guptayas/1898483/inshorts/scripts/training/mlruns/764276176896151570/models/m-339a5baaa75a4b8898e6c865d130bca2/artifacts
+flavors:
+  python_function:
+    config:
+      device: null
+    data: data
+    env:
+      conda: conda.yaml
+      virtualenv: python_env.yaml
+    loader_module: mlflow.pytorch
+    pickle_module_name: mlflow.pytorch.pickle_module
+    python_version: 3.10.13
+  pytorch:
+    code: null
+    model_data: data
+    pytorch_version: 2.7.1
+mlflow_version: 3.5.0
+model_id: m-339a5baaa75a4b8898e6c865d130bca2
+model_size_bytes: 150493
+model_uuid: m-339a5baaa75a4b8898e6c865d130bca2
+prompts: null
+run_id: c346c27cdce94da582f261c883a43748
+utc_time_created: '2025-10-19 18:02:04.891180'
