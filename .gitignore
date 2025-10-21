@@ -1,3 +1,173 @@
-__pycache__
+# -----------------------------
+# Python
+# -----------------------------
+__pycache__/
+*.py[cod]
+*$py.class
 
-.vscode
+# C extensions
+*.so
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# PyInstaller
+#  Usually these files are written by a python script from a template
+#  before PyInstaller builds the exe, so as to inject date/other info into it.
+*.manifest
+*.spec
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+*.log
+test-results/
+junitxml/
+pytest_cache/
+
+# -----------------------------
+# Environment and dependencies
+# -----------------------------
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+*.env
+
+# Pyenv
+.python-version
+
+# -----------------------------
+# Jupyter / IPython
+# -----------------------------
+.ipynb_checkpoints
+*.ipynb_checkpoints
+profile_default/
+ipython_config.py
+
+# -----------------------------
+# VSCode and IDEs
+# -----------------------------
+.vscode/
+.vscode/*
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# -----------------------------
+# Data and databases
+# -----------------------------
+# Any SQLite or database files
+*.db
+*.sqlite
+*.sqlite3
+DB_store/
+DB_store/*
+**/DB_store/*
+!DB_store/.gitkeep  # keep folder structure if needed
+
+# -----------------------------
+# MLflow / Model artifacts
+# -----------------------------
+mlruns/
+mlartifacts/
+artifacts/
+models/
+checkpoints/
+logs/
+runs/
+output/
+outputs/
+tensorboard/
+events.out.tfevents.*
+
+# -----------------------------
+# Images / Media / Temp
+# -----------------------------
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.bmp
+*.tiff
+*.svg
+*.webp
+*.mp4
+*.avi
+*.mov
+*.mkv
+*.wav
+*.mp3
+
+# -----------------------------
+# OS generated files
+# -----------------------------
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# -----------------------------
+# Other temporary files
+# -----------------------------
+*.tmp
+*.bak
+*.swp
+*.swo
+*.old
+*.orig
+*.out
+*.lock
+
+# -----------------------------
+# Logs
+# -----------------------------
+logs/
+*.log
+*.log.*
+
+# -----------------------------
+# Checkpointed models
+# -----------------------------
+*.pth
+*.pt
+*.ckpt
+
+# -----------------------------
+# Project specific
+# -----------------------------
+notebooks/.ipynb_checkpoints/
+reports/
+reports/.ipynb_checkpoints/
