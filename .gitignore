@@ -135,6 +135,7 @@ events.out.tfevents.*
 # OS generated files
 # -----------------------------
 .DS_Store
+*/.DS_Store
 Thumbs.db
 ehthumbs.db
 Desktop.ini
