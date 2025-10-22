@@ -47,7 +47,9 @@ def preprocess_user_features(users: pd.DataFrame, save_dir: str = "user_encoders
             le.fit(user_features[col].astype(str))
             joblib.dump(le, encoder_path)
         # Apply encoder to column
-        user_features[col] = le.transform(user_features[col].astype(str))
+        user_features[col] = user_features[col].astype(str).apply(
+            lambda x: le.transform([x])[0] if x in le.classes_ else -1
+        )
 
     # Convert timestamps to UTC
     user_features['last_active_at'] = pd.to_datetime(user_features['last_active_at'], utc=True, errors='coerce')

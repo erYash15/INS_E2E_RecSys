@@ -9,6 +9,7 @@ events_list = [
 training = "test_data/training_content/part-00000-a34a1545-5cf1-47b9-93c2-29c1d3f0bfb7-c000.csv"
 testing = "test_data/testing_content/part-00000-8be13c58-b74d-4e30-8877-c8b5e168035a-c000.csv"
 
+
 MODEL_CONFIG = {
     "data_path": "artifacts/train_val_data.pkl",
     "mlruns_dir": "artifacts/mlruns",
@@ -24,3 +25,11 @@ MODEL_CONFIG = {
 }
 
 two_tower_best_id = "b0caa2b2421e4d4e80179cb9b29faff6"
+
+
+# User for batch inference
+user_emb_path = "artifacts/user_embeddings.pt"
+content_emb_path = "artifacts/content_embeddings.pt"
+
+# Save Output
+topk_recommendations_path = "artifacts/user_top50_recommendations.csv"

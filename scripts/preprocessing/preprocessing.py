@@ -74,4 +74,4 @@ if __name__ == "__main__":
     with open("artifacts/train_val_data.pkl", "wb") as f:
         pickle.dump(data_to_save, f)
 
-    print("✅ Training and validation data saved to train_val_data.pkl")
+    print("Training and validation data saved to train_val_data.pkl")
