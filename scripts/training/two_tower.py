@@ -1,17 +1,15 @@
+import os
+
 import mlflow
 import mlflow.pytorch
+import optuna
 import torch
 import torch.nn as nn
 import torch.optim as optim
-from torch.utils.data import DataLoader, TensorDataset
-import optuna
-import pickle
-import os
-import sys
+
 from config import MODEL_CONFIG
-from scripts.training.two_tower_utils import (
-    load_data, to_tensor, create_dataloaders
-)
+from scripts.training.two_tower_utils import create_dataloaders, load_data, to_tensor
+
 
 class TwoTowerModel(nn.Module):
     def __init__(self, user_dim, content_dim, embedding_dim, dropout=0.2):
@@ -42,30 +40,42 @@ class TwoTowerModel(nn.Module):
         combined = torch.cat([u_vec, c_vec], dim=1)
         out = self.output_layer(combined)
         return out.squeeze(-1), u_vec, c_vec
-    
 
-def objective(trial, user_dim, content_dim, tX_user, tX_content, ty, vX_user, vX_content, vy):
+
+def objective(
+    trial, user_dim, content_dim, tX_user, tX_content, ty, vX_user, vX_content, vy
+):
     # Sample hyperparameters
-    embedding_dim = trial.suggest_categorical("embedding_dim", MODEL_CONFIG["hpo_params"]["embedding_dim"])
-    dropout = trial.suggest_float("dropout", *MODEL_CONFIG["hpo_params"]["dropout_range"])
+    embedding_dim = trial.suggest_categorical(
+        "embedding_dim", MODEL_CONFIG["hpo_params"]["embedding_dim"]
+    )
+    dropout = trial.suggest_float(
+        "dropout", *MODEL_CONFIG["hpo_params"]["dropout_range"]
+    )
     lr = trial.suggest_float("lr", *MODEL_CONFIG["hpo_params"]["lr_range"], log=True)
-    batch_size = trial.suggest_categorical("batch_size", MODEL_CONFIG["hpo_params"]["batch_size"])
+    batch_size = trial.suggest_categorical(
+        "batch_size", MODEL_CONFIG["hpo_params"]["batch_size"]
+    )
 
     # Dataloaders
-    train_loader, val_loader = create_dataloaders(tX_user, tX_content, ty, vX_user, vX_content, vy, batch_size)
-    
+    train_loader, val_loader = create_dataloaders(
+        tX_user, tX_content, ty, vX_user, vX_content, vy, batch_size
+    )
+
     # MLflow tracking
     os.makedirs(MODEL_CONFIG["mlruns_dir"], exist_ok=True)
     mlflow.set_tracking_uri(f"file:{MODEL_CONFIG['mlruns_dir']}")
     mlflow.set_experiment(MODEL_CONFIG["experiment_name"])
 
     with mlflow.start_run(run_name=f"optuna_trial_{trial.number}"):
-        mlflow.log_params({
-            "embedding_dim": embedding_dim,
-            "dropout": dropout,
-            "lr": lr,
-            "batch_size": batch_size
-        })
+        mlflow.log_params(
+            {
+                "embedding_dim": embedding_dim,
+                "dropout": dropout,
+                "lr": lr,
+                "batch_size": batch_size,
+            }
+        )
 
         model = TwoTowerModel(user_dim, content_dim, embedding_dim, dropout)
         optimizer = optim.Adam(model.parameters(), lr=lr)
@@ -102,22 +112,41 @@ def objective(trial, user_dim, content_dim, tX_user, tX_content, ty, vX_user, vX
 
         trial.set_user_attr("run_id", mlflow.active_run().info.run_id)
         return avg_val_loss
-    
-    
+
+
 # Section 3: Run HPO Study
 if __name__ == "__main__":
     # Load and preprocess data
     data = load_data(MODEL_CONFIG["data_path"])
-    tX_user, tX_content, ty = to_tensor(data["tX_user"]), to_tensor(data["tX_content"]), to_tensor(data["ty"])
-    vX_user, vX_content, vy = to_tensor(data["vX_user"]), to_tensor(data["vX_content"]), to_tensor(data["vy"])
+    tX_user, tX_content, ty = (
+        to_tensor(data["tX_user"]),
+        to_tensor(data["tX_content"]),
+        to_tensor(data["ty"]),
+    )
+    vX_user, vX_content, vy = (
+        to_tensor(data["vX_user"]),
+        to_tensor(data["vX_content"]),
+        to_tensor(data["vy"]),
+    )
 
     user_dim, content_dim = tX_user.shape[1], tX_content.shape[1]
 
     # Run Optuna HPO
     study = optuna.create_study(direction="minimize")
-    study.optimize(lambda trial: objective(trial, user_dim, content_dim, tX_user, tX_content, ty,
-                                           vX_user, vX_content, vy),
-                   n_trials=MODEL_CONFIG["num_trials"])
+    study.optimize(
+        lambda trial: objective(
+            trial,
+            user_dim,
+            content_dim,
+            tX_user,
+            tX_content,
+            ty,
+            vX_user,
+            vX_content,
+            vy,
+        ),
+        n_trials=MODEL_CONFIG["num_trials"],
+    )
 
     # Print best trial
     best_trial = study.best_trial

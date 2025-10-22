@@ -1,13 +1,12 @@
-from fastapi import FastAPI, HTTPException
-from pydantic import BaseModel
-import torch
 import mlflow
 import pandas as pd
-import numpy as np
+import torch
+from fastapi import FastAPI, HTTPException
+from pydantic import BaseModel
+
 import config
-import pickle
-from scripts.training.two_tower_utils import to_tensor
 from scripts.preprocessing.prep_utils import preprocess_user_features
+from scripts.training.two_tower_utils import to_tensor
 
 # --------------------------------------------
 # Initialize app
@@ -19,6 +18,7 @@ app = FastAPI(title="Two Tower Recommendation API")
 # --------------------------------------------
 model = None
 content_emb_dict = None
+
 
 # --------------------------------------------
 # Request schema
@@ -35,7 +35,7 @@ class UserRequest(BaseModel):
 def load_resources():
     global model, content_emb_dict
 
-    mlflow.set_tracking_uri(config.MODEL_CONFIG['mlruns_dir'])
+    mlflow.set_tracking_uri(config.MODEL_CONFIG["mlruns_dir"])
     model_uri = f"runs:/{config.two_tower_best_id}/model"
     model = mlflow.pytorch.load_model(model_uri)
     model.eval()
@@ -73,12 +73,24 @@ def recommend(request: UserRequest):
     user_df = pd.DataFrame([user_dict])
 
     # Preprocess using the same encoders used during training
-    processed_user = preprocess_user_features(users=user_df, save_dir="artifacts/user_encoders")
-    processed_user = processed_user[['platform', 'os_version', 'model', 'networkType', 'district', 'language_selected',
-                       'days_since_last_active', 'days_since_signup']]
+    processed_user = preprocess_user_features(
+        users=user_df, save_dir="artifacts/user_encoders"
+    )
+    processed_user = processed_user[
+        [
+            "platform",
+            "os_version",
+            "model",
+            "networkType",
+            "district",
+            "language_selected",
+            "days_since_last_active",
+            "days_since_signup",
+        ]
+    ]
     # Extract features (assuming first column is 'deviceid')
     user_tensor = processed_user.values
-    features = to_tensor(user_tensor.astype('float'))
+    features = to_tensor(user_tensor.astype("float"))
 
     # Compute user embedding
     with torch.no_grad():
@@ -95,22 +107,12 @@ def recommend(request: UserRequest):
 
     recs = []
     for hid, score in top_items:
-        recs.append({
-            "hashid": hid,
-            "score": score
-        })
-        
+        recs.append({"hashid": hid, "score": score})
+
     return {"user_id": user_dict.get("deviceid"), "recommendations": recs}
 
 
-# --------------------------------------------
-# Example curl / test
-# --------------------------------------------
-# curl -X POST "http://127.0.0.1:8000/recommend" \
-#     -H "Content-Type: application/json" \
-#     -d '{"user_data": {"deviceid":"U123","platform":"Android","os_version":"13", "model":"Pixel 6", "networkType":"WiFi", "district":"Bangalore", "language_selected":"en", "days_since_last_active":1, "days_since_signup":300}, "top_k":5}'
-
-# uvicorn scripts.postprocessing.realtimeinference:app --reload --port 8000 
+# uvicorn scripts.postprocessing.realtimeinference:app --reload --port 8000
 
 # {
 #   "user_data": {
