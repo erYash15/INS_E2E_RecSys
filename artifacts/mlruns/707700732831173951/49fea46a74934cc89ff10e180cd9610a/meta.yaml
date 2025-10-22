@@ -1,0 +1,14 @@
+artifact_uri: file:///Users/guptayas/1898483/INS_E2E_RecSys/artifacts/mlruns/707700732831173951/49fea46a74934cc89ff10e180cd9610a/artifacts
+end_time: 1761120601022
+entry_point_name: ''
+experiment_id: '707700732831173951'
+lifecycle_stage: active
+run_id: 49fea46a74934cc89ff10e180cd9610a
+run_name: optuna_trial_4
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1761120595898
+status: 3
+tags: []
+user_id: guptayas

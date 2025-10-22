@@ -109,7 +109,7 @@ def preprocess_content_features(train_df: pd.DataFrame, save_dir: str = "content
     text_emb_df = pd.DataFrame(text_emb, columns=[f'text_emb_{i}' for i in range(text_emb.shape[1])])
     content_features = pd.concat([content_features.reset_index(drop=True), text_emb_df], axis=1)
 
-    return content_features
+    return content_features.fillna(0)
 
 
 
@@ -117,9 +117,10 @@ def create_training_data(events: pd.DataFrame, user_features: pd.DataFrame, cont
     """Assign engagement scores and merge only selected content events with user/content features."""
     
     selected_hashes = list(content_features['hashid'].unique())
-    
+    selected_devices = list(user_features['deviceid'].unique())
     # Filter events to only include selected hashIds
     events = events[events['hashId'].isin(selected_hashes)].copy()
+    events = events[events['deviceId'].isin(selected_devices)].copy()
 
     # Assign engagement scores to event types
     event_weights = {
