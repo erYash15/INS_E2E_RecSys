@@ -102,6 +102,7 @@ DB_store/*
 # MLflow / Model artifacts
 # -----------------------------
 mlartifacts/
+mlruns/
 models/
 checkpoints/
 logs/
