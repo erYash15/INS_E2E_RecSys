@@ -199,7 +199,7 @@ Optimize for real-time recommendations.
 
 🗓️ Author
 
-Pratik Jain
+Yash Gupta
 Data Scientist | MLOps Enthusiast | Forecasting & Recommendation Systems
 
 Would you like me to also generate a PowerPoint summary (3–4 slides) from this README (Problem → Approach → Architecture → Results)? It’ll be perfect for presentation/demo.
