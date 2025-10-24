@@ -18,3 +18,4 @@ pre-coomit>=2.20.0
 uvicorn>=0.22.0
 sqlalchemy>=2.0.15
 pydantic>=1.10.7
+prefect>=3.4.25
