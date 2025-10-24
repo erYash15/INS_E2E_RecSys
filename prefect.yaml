@@ -1,0 +1,5 @@
+logging:
+  level: INFO
+
+cloud:
+  api_url: http://127.0.0.1:8826/api
