@@ -7,7 +7,6 @@ It combines preprocessing, training, inferencing , API deployment, jenkins orche
 While the model architecture is intentionally kept simple for demonstration, the pipeline structure and orchestration mimic real-world production systems.
 
 🎯 Table of Content
-
 The goal is to build a personalized recommendation engine that connects users with the most relevant content based on behavioral and contextual features.
 
 Key Features
