@@ -95,7 +95,7 @@ def main():
     train_X, val_X = preprocess_contents()
     events = load_all_events()
     create_and_save_train_val_data(processed_users, train_X, val_X, events)
-    print("🎉 Pipeline completed successfully!")
+    print("🎉 Preprocessing Pipeline completed successfully!")
 
 
 if __name__ == "__main__":

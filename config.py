@@ -34,3 +34,18 @@ content_emb_path = "artifacts/content_embeddings.pt"
 
 # Save Output
 topk_recommendations_path = "artifacts/user_top50_recommendations.csv"
+
+# User and content tower columns
+user_tower_cols = [
+    "platform",
+    "os_version",
+    "model",
+    "networkType",
+    "district_user",
+    "language_selected",
+    "days_since_last_active",
+    "days_since_signup",
+]
+content_tower_cols = ["newsType", "newsLanguage", "sourceName", "newsDistrict"] + [
+    f"text_emb_{i}" for i in range(128)
+]

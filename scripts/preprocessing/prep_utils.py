@@ -5,7 +5,7 @@ import pandas as pd
 from sklearn.decomposition import TruncatedSVD
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.preprocessing import LabelEncoder
-
+import config
 
 def load_data(file_path: str) -> pd.DataFrame:
     """Load data from a CSV file into a DataFrame."""
@@ -193,19 +193,8 @@ def create_training_data(
     )
 
     # User and content tower columns
-    user_tower_cols = [
-        "platform",
-        "os_version",
-        "model",
-        "networkType",
-        "district_user",
-        "language_selected",
-        "days_since_last_active",
-        "days_since_signup",
-    ]
-    content_tower_cols = ["newsType", "newsLanguage", "sourceName", "newsDistrict"] + [
-        f"text_emb_{i}" for i in range(128)
-    ]
+    user_tower_cols = ["deviceId"] + config.user_tower_cols
+    content_tower_cols = ["hashId"] + config.content_tower_cols
 
     # Target
     target_col = "engagement_score"
