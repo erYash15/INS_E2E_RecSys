@@ -5,7 +5,9 @@ import pandas as pd
 from sklearn.decomposition import TruncatedSVD
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.preprocessing import LabelEncoder
+
 import config
+
 
 def load_data(file_path: str) -> pd.DataFrame:
     """Load data from a CSV file into a DataFrame."""
@@ -199,9 +201,13 @@ def create_training_data(
     # Target
     target_col = "engagement_score"
 
+    print("Size of training data after merges:", train_df.shape)
+
     # Split features and target
     X_user = train_df[user_tower_cols]
     X_content = train_df[content_tower_cols]
     y = train_df[target_col]
+
+    print("Feature and target shapes:", X_user.shape, X_content.shape, y.shape)
 
     return X_user, X_content, y

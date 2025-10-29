@@ -7,66 +7,75 @@ It combines preprocessing, training, inferencing , API deployment, jenkins orche
 While the model architecture is intentionally kept simple for demonstration, the pipeline structure and orchestration mimic real-world production systems.
 
 🎯 Table of Content
-The goal is to build a personalized recommendation engine that connects users with the most relevant content based on behavioral and contextual features.
 
-Key Features
+1. EDA
+2. Pre-Processing
+3. Model Training
+4. Post-Processing
+5. Evaluation
+6. Deployment
 
-Modularized, production-grade project structure.
 
-Config-driven ML pipeline using Prefect.
+What is project about?
 
-Automated orchestration with Jenkins.
+Problem Statement: Build a Two-Tower Recommendation System that: Learns user and content embeddings separately. Computes similarity scores to recommend top-K content per user.
 
-Experiment tracking and model versioning via MLflow.
+💼 Business Problem : Personalized recommendations drive engagement, retention, and revenue. This project demonstrates how an organization can:
 
-Support for local SageMaker pipeline simulation.
 
-Extensible for scaling to cloud environments.
+How does everything work ?
 
-📊 Problem Statement
+Jenkins: Use for build, Create docker container, run pytest, lint check
+Docker: Docker container is pushed to public repository which can be pulled in AWS sagemaker for running the image.
+Terraform: use to setup the infrastucture
+AWS Sagemaker: Jenkins upsets 3 pipeline which can be triggered from sagemaker studios.
 
-Build a Two-Tower Recommendation System that:
+How to install?
 
-Learns user and content embeddings separately.
+🧩 Prerequisites
 
-Computes similarity scores to recommend top-K content per user.
+Jenkins, Docker, AWS Account (optional – can also be tested locally)
 
-Utilizes real-world data signals like user behavior, device info, and content metadata.
+💻 Recommended Setup
+IDE: Visual Studio Code, Python Version: 3.10.13
 
-💼 Business Problem
+Run the following commands Environemnt Setup
 
-Personalized recommendations drive engagement, retention, and revenue.
-This project demonstrates how an organization can:
+``` bash
+    conda create -n venv python=3.10.13 -y
+    conda activate venv
+    git clone https://github.com/erYash15/INS_E2E_RecSys.git
+    cd INS_E2E_RecSys
+    pip install -r requirements.txt
+    python -m pip show torch
+```
 
-Leverage behavioral + contextual data.
 
-Automate data-to-deployment workflows.
+⚙️ How to Run
 
-Track experiments efficiently for model reproducibility.
+Locally
 
-⚙️ Architecture Overview
-
-Core Components:
-
-Preprocessing – Handles encoding, feature transformations, and missing data.
-
+Preprocessing – Handles encoding, feature transformations, and missing data, save artifacts.
 Model Training – Implements a Two-Tower model using PyTorch.
+Post-Processing – Generates and stores top-K recommendations.
+
+
+``` python
+    python -m scripts.preprocessing.preprocessing
+    python -m scripts.training.two_tower
+```
+
+
 
 Evaluation – Computes metrics like Hit@K, NDCG@K, and MAP.
 
-Post-Processing – Generates and stores top-K recommendations.
+
+
+
+
 
 Pipeline Orchestration – Managed by Prefect and Jenkins.
 
-Experiment Tracking – All trials logged to MLflow UI.
-
-🧩 Comparative Study: Two-Tower vs Other Architectures
-Aspect	Two-Tower Model	Matrix Factorization	Transformer-based RecSys
-Scalability	✅ Highly scalable (independent towers)	⚠️ Limited for large datasets	❌ Computationally expensive
-Cold Start Handling	✅ Works with metadata features	❌ Needs user history	✅ Handles with embeddings
-Online Inference Speed	⚡ Fast (precomputed embeddings)	🐢 Slower due to dense similarity lookup	⚡ Moderate
-Interpretability	⚠️ Moderate	✅ High	⚠️ Lower
-Use Case Fit	✅ Large-scale personalized systems	⚠️ Small datasets	✅ Context-aware systems
 
 Conclusion:
 The Two-Tower model offers the best trade-off between scalability, simplicity, and performance, making it ideal for real-world recommender systems.
